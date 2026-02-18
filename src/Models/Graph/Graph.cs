@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Models.Matrix;
 
 namespace Models.Graph
 {
-    public class Graph
+    public class Graph<T>
     {
-        public Graph()
+        public readonly Matrix<T> Matrix;
+
+        public Graph(Matrix<T> matrix)
         {
-   
+            Matrix = matrix;
         }
     }
 }
