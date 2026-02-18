@@ -1,8 +1,4 @@
-﻿using System.Data.Common;
-using System.Numerics;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace Models.Matrix
+﻿namespace Models.Matrix
 {
     public class Matrix<T>
     {
@@ -73,6 +69,73 @@ namespace Models.Matrix
                     yield return _matrix[number, number];
                 }
             }
+        }
+
+        public static Matrix<T> Transposed(Matrix<T> matrix)
+        {
+            int row = matrix.ColumnsCount;
+            int column = matrix.RowsCount;
+
+            Matrix<T> transposed = new Matrix<T>(row, column);
+
+            for(int i = 0; i < matrix.RowsCount; i++)
+            {
+                for(int j = 0; j < matrix.ColumnsCount; j++)
+                {
+                    T item = matrix.GetItem(i, j);
+
+                    transposed.Add(j, i, item);
+                }
+            }
+
+            return transposed;
+        }
+
+        public static Matrix<T> Copy(Matrix<T> source)
+        {
+            int rows = source.RowsCount;
+            int columns = source.ColumnsCount;
+
+            Matrix<T> target = new Matrix<T>(rows, columns);
+
+            for(int i = 0; i < target.RowsCount; i++)
+            {
+                for(int j = 0; j < target.ColumnsCount; j++)
+                {
+                    target.Add(i, j, source.GetItem(i, j));
+                }
+            }
+
+            return target;
+        }
+
+        /// <summary>
+        /// Compares 2 matrices. 
+        /// Works only for matrices that contain structs or immutable types
+        /// </summary>
+        /// <param name="matrixFirst"></param>
+        /// <param name="matrixSecond"></param>
+        /// <returns></returns>
+        public static bool CheckEquality(Matrix<T> matrixFirst, Matrix<T> matrixSecond)
+        {
+            if (matrixFirst.ColumnsCount != matrixSecond.ColumnsCount
+                || matrixFirst.RowsCount != matrixSecond.RowsCount)
+                return false;
+
+            for(int i = 0; i < matrixFirst.RowsCount; i++)
+            {
+                for(int j = 0; j < matrixFirst.ColumnsCount; j++)
+                {
+                    var firstItem = matrixFirst.GetItem(i, j);
+                    var secondItem = matrixSecond.GetItem(i, j);
+
+                    if (!firstItem.Equals(secondItem))
+                        return false;
+                }
+            }
+
+
+            return true;
         }
 
         public Matrix(int rowsCount, int columnsCount)
