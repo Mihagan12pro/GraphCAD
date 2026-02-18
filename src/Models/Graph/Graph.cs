@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Models.Graph
 {
-    internal class Graph
+    public class Graph
     {
+        public Graph()
+        {
+   
+        }
     }
 }
